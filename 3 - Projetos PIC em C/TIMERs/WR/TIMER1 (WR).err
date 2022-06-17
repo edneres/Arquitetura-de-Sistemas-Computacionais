@@ -1,0 +1,21 @@
+*** Error 18 "TIMER1 (WR).c" Line 7(10,21): File can not be opened
+    Not in project "C:\Users\edyne\OneDrive\Área de Trabalho\UFPI\Programação\2 - UFPI\3 - Projetos PIC em C\TIMERs\WR\reg_16f.h"
+    Not in "C:\Program Files (x86)\PICC\devices\reg_16f.h"
+    Not in "C:\Program Files (x86)\PICC\drivers\reg_16f.h"
+*** Error 12 "TIMER1 (WR).c" Line 13(1,6): Undefined identifier   TRISA
+*** Error 12 "TIMER1 (WR).c" Line 37(1,11): Undefined identifier   OPTION_REG
+*** Error 12 "TIMER1 (WR).c" Line 39(1,5): Undefined identifier   TMR0
+*** Error 12 "TIMER1 (WR).c" Line 50(1,5): Undefined identifier   TMR0
+--- Info 300 "TIMER1 (WR).c" Line 9(6,10): More info:   First Declaration of main
+*** Error 31 "TIMER1 (WR).c" Line 66(11,12): Identifier is already used in this scope
+*** Error 48 "TIMER1 (WR).c" Line 68(1,6): Expecting a (
+*** Error 43 "TIMER1 (WR).c" Line 68(9,10): Expecting a declaration
+*** Error 43 "TIMER1 (WR).c" Line 68(10,11): Expecting a declaration
+*** Error 48 "TIMER1 (WR).c" Line 69(1,6): Expecting a (
+*** Error 43 "TIMER1 (WR).c" Line 69(9,19): Expecting a declaration
+*** Error 43 "TIMER1 (WR).c" Line 69(19,20): Expecting a declaration
+*** Error 43 "TIMER1 (WR).c" Line 70(1,2): Expecting a declaration
+*** Error 43 "TIMER1 (WR).c" Line 71(1,2): Expecting a declaration
+*** Error 43 "TIMER1 (WR).c" Line 71(2,3): Expecting a declaration
+      15 Errors,  0 Warnings.
+Build Failed.

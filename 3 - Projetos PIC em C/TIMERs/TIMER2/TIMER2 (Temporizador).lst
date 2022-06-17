@@ -1,0 +1,171 @@
+CCS PCM C Compiler, Version 5.007, 61971               12-abr-22 13:52
+
+               Filename:   C:\Users\edyne\OneDrive\Área de Trabalho\UFPI\Programação\2 - UFPI\3 - Projetos PIC em C\TIMERs\TIMER2\TIMER2 (Temporizador).lst
+
+               ROM used:   43 words (1%)
+                           Largest free fragment is 2048
+               RAM used:   6 (2%) at main() level
+                           7 (2%) worst case
+               Stack used: 0 locations
+               Stack size: 7
+
+*
+0000:  NOP
+0001:  MOVLW  00
+0002:  MOVWF  0A
+0003:  GOTO   004
+.................... /* 
+.................... 	Fazer um código em C para fazer com que o timer2 opere como temporizador  
+.................... 	cujo o tempo de estouro desse timer seja de 50 us.  
+.................... 	A cada 100 us, o estado do pino RB0 da porta B é invertido de estado.	 
+....................  
+.................... 	>> 50us = 0,00005s 
+.................... 	>> 100us = 0,0001s 
+....................  
+.................... 	>> ciclo de máquina = 4 / Fosc -> ciclo de máquina = 4 / 20MHz  
+.................... 	  -> 1 ciclo de máquina = 0,2us <- 
+.................... 	>> tempo = ciclo de máquina * prescaler * potscaler * (PR2+1) -> 50us = 0,2us * prescaler * potscaler * (PR2 + 1) 
+.................... 	     250 = prescaler * potscaler * (PR2 + 1) -> valor menor que 255, logo, ñ precisa do PRE. e do POS 
+....................          250 = (PR2 + 1)* 1 * 1 
+.................... 	  -> PR2 = 249 <-  
+.................... */ 
+....................  
+....................  
+.................... #include <16F877A.h> 
+.................... //////// Standard Header file for the PIC16F877A device //////////////// 
+.................... #device PIC16F877A 
+....................  
+.................... #list 
+....................  
+.................... #include "reg_16f.h" 
+.................... // DEFS_877  
+.................... //  
+.................... // Standard definitions for PIC16F877  
+.................... //  
+.................... // Copyright, Peter H. Anderson, Baltimore, MD, June, '99  
+....................   
+.................... //#define byte int  
+....................  
+.................... //#byte PORTD = 0x08 
+.................... //#bit INTF = 0xb.1 
+....................  
+.................... #list  
+....................  
+....................  
+....................  
+.................... void main() 
+0004:  BSF    03.5
+0005:  BSF    1F.0
+0006:  BSF    1F.1
+0007:  BSF    1F.2
+0008:  BCF    1F.3
+0009:  MOVLW  07
+000A:  MOVWF  1C
+000B:  BCF    03.7
+000C:  MOVLW  1F
+000D:  ANDWF  03,F
+.................... { 
+....................  
+.................... /* 
+.................... 	TOUTPS3 (Bit de Seleção da Pós-escala da Saída do Timer2) 
+.................... 		- 0 (+ significativo) 
+....................  
+.................... 	TOUTPS2 (Bit de Seleção da Pós-escala da Saída do Timer2) 
+.................... 		- 0 
+....................  
+.................... 	TOUTPS1 (Bit de Seleção da Pós-escala da Saída do Timer2) 
+.................... 		- 0 
+....................  
+.................... 	TOUTPS0 (Bit de Seleção da Pós-escala da Saída do Timer2) 
+.................... 		- 0 
+....................  
+.................... 	TMR2ON (Bit de Acionamento do Timer2) 
+.................... 		- 1 
+....................  
+.................... 	T2CKPS1 (Bit de Seleção da Pré-escala do Clock do Timer2) 
+.................... 		- 0 
+....................  
+.................... 	T2CKPS0 (Bit de Seleção da Pré-escala do Clock do Timer2) 
+.................... 		- 0 (- significativo) 
+.................... 	 
+.................... 	>> T2CON = 0b001000; << 
+....................  
+....................  
+.................... 	Como PR2 = 249 (em decimal), logo, em binário: 
+.................... 	>> PR2 = 0b11111001; <<	 
+.................... 	[Mas poderia deixar em decimal também!] 
+....................  
+....................  
+.................... 	1 ciclo de máquina leva 0,2us e a cada 100us o pino RB0 da porta B tem que ser invertido de estado 
+.................... 		100us = x * ciclo de máquina = x * 0,2us 
+.................... 		    x = 100us / 0,2us 
+.................... 		 -> x = 500 <-  
+.................... */ 
+....................   
+.................... 	#byte PORTB = 0x06; 
+.................... 	#bit b0 = PORTB.0; 
+....................  
+.................... 	unsigned int8 aux = 0;  
+000E:  BCF    03.5
+000F:  CLRF   21
+....................  
+.................... 	T2CON = 0b001000; // Postcaler 1:1, Timer2 ligado e Prescaler 1:1 [ setup_timer_2(T2_DIV_BY_1, 249, 1); ] 
+0010:  MOVLW  08
+0011:  MOVWF  12
+.................... 	PR2 = 0b11111001; // Define o período para PR2 
+0012:  MOVLW  F9
+0013:  BSF    03.5
+0014:  MOVWF  12
+.................... 	#byte TMR2 = 0x11; 
+.................... 	TMR2 = 0; 
+0015:  BCF    03.5
+0016:  CLRF   11
+....................  
+.................... 	//setup_timer_2(T2_DIV_BY_1, 249, 1);  
+.................... 	//set_timer2(0); // Inicializa o timer2 em 0 
+....................  
+.................... 	//TRISB = 0; 
+.................... 	//PORTB = 0; 
+.................... 	 
+.................... 	output_bit(PIN_B0, 0); 
+0017:  BCF    06.0
+0018:  BSF    03.5
+0019:  BCF    06.0
+....................  
+.................... 	while (TRUE) 
+.................... 	{ 
+.................... 		if (TMR2IF == 1) // Flag de overflow do Timer2 
+001A:  BCF    03.5
+001B:  BTFSS  0C.1
+001C:  GOTO   01F
+.................... 		{ 
+.................... 			aux++; 
+001D:  INCF   21,F
+.................... 			TMR2IF = 0; 
+001E:  BCF    0C.1
+.................... 		} 
+....................  
+.................... 		if (aux == 2) 
+001F:  MOVF   21,W
+0020:  SUBLW  02
+0021:  BTFSS  03.2
+0022:  GOTO   029
+.................... 		{ 
+.................... 			aux = 0; 
+0023:  CLRF   21
+.................... 			output_toggle(PIN_B0); 
+0024:  BSF    03.5
+0025:  BCF    06.0
+0026:  MOVLW  01
+0027:  BCF    03.5
+0028:  XORWF  06,F
+.................... 		} 
+0029:  GOTO   01B
+.................... 	} 
+.................... } 
+002A:  GOTO   02A
+
+Configuration Fuses:
+   Word  1: 373B   RC NOWDT NOPUT NOBROWNOUT NOLVP NOCPD NOWRT DEBUG NOPROTECT
+
+   Some fuses have been forced to be compatible with the ICD debugger.

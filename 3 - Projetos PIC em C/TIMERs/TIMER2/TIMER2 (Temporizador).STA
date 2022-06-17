@@ -1,0 +1,48 @@
+
+ROM used:   43/7936 (1%)
+            43/7936 (1%) including unused fragments
+
+            0.0 Average locations per line
+            2.2 Average locations per statement
+
+RAM used:   6/357 (2%) at main() level
+            7/357 (2%) worst case
+
+Stack used: 0 worst case (0 in main + 0 for interrupts)
+Stack size: 7
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+   93    20 100  TIMER2 (Temporizador).c
+  661     0   0  ..\..\..\..\..\..\..\..\..\..\Program Files (x86)\PICC\devices\16F877A.h
+  399     0   0  ..\reg_16f.h
+----- -----
+ 1153    20 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+0     39  91    1   382  4.1  main
+ Inline         0             @cinit1
+
+Program metrics:
+    Functions               1
+    Statements              20
+    Comments                245
+    Volume (V)              384
+    Difficulty (D)          4.0
+    Effort to implement (E) 1538
+    Time to implement (T)   1 minutes
+    Est Delivered Bugs (B)  0
+    Cyclomatic Complexity   2
+    Maintainability (MI)    52
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00003     4  0  
+00004-007FF    39  2005  
+00800-00FFF     0  2048  
+01000-017FF     0  2048  
+01800-01EFF     0  1792  
+
+
+
