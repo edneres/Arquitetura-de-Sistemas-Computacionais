@@ -1,0 +1,19 @@
+>> LINGUAGEM ASSEMBLY <<
+     CONSIDERAÇÕES
+
+01 - Assembly não é sencível à minúsculo e nem à maiúsculo;
+02 - Comentários de linha através do ";" ;
+03 - _CONFIG : configura alguma coisa;
+04 - & : booleano "and";
+05 - ORG : (diretiva) vem de origem, indica o início do endereço de memória no qual
+     o código será armazenado;
+06 - nop : "no operation", não faz nada durante um ciclo de clock;
+07 - GOTO : "go to", pula um determinado bloco de código e vai para o especificado;
+08 - clrf : zera o conteúdo do espaço de memória indicado;
+09 - BANKSEL TRISB : seleciona o banco para o registrador TRISB;
+	status, Rp1   Rp1:Rp0 , 00, 01, 10, 11
+	status, Rp0      |_ 2 bits
+10 - bcf status, Rp1 : "bit clear file" > 0 ; tanto faz qual o "Rp"
+11 - bsf status, Rp0 : "bit set file" > 1 ; o 09 faz o 10 e o 11 utomaticamente
+12 - MOVLW : (intrução) move a constante indicada para o registrador "w";
+13 - MOVWF : move o conteúdo de "w" para o registrador "f" indicado;
